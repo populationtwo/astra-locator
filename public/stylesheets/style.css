@@ -9,8 +9,8 @@ legend {
 }
 
 .navbar {
-  background-color: #ad1d28;
-  border-color: #911821;
+  background-color: #1BE7B3;
+  border-color: #12b48a;
 }
 
 .navbar-light .navbar-brand {
@@ -62,8 +62,8 @@ legend {
 }
 
 .badge-default, .btn-primary {
-  background-color: #ad1d28;
-  border-color: #911821;
+  background-color: #1BE7B3;
+  border-color: #12b48a;
 }
 
 h4 a, h4 a:hover {
