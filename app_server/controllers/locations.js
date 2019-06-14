@@ -10,7 +10,7 @@ const locationInfo = (req,res)=>{
 
 /* GET 'Add review' page */
 const addReview = (req,res)=>{
-	res.render('index', {title: 'Add Review'});
+	res.render('location-review-form', {title: 'Add Review'});
 };
 
 module.exports = {
@@ -18,4 +18,3 @@ module.exports = {
 	locationInfo,
 	addReview
 };
-//API: AIzaSyCTwzzYx9HlWCYKHxrIrctQ0m1ZUUmYHaI
