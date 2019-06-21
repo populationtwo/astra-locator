@@ -139,13 +139,24 @@ const locationsUpdateOne = (req, res) => {
   res.status(200).json({ status: "success" });
 };
 const locationsDeleteOne = (req, res) => {
-  res.status(200).json({ status: "success" });
+  const { locationid } = req.params;
+  if (locationid) {
+    Loc.findByIdAndRemove(locationid).exec((err, location) => {
+      if (err) {
+        return res.status(404).json(err);
+      }
+      res.status(204).json(null);
+    });
+  } else {
+    res.status(404).json({
+      message: "No Location"
+    });
+  }
 };
 
 module.exports = {
   locationsListByDistance,
   locationsCreate,
-
   locationsReadOne,
   locationsUpdateOne,
   locationsDeleteOne
