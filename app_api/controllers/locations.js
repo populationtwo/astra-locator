@@ -91,28 +91,27 @@ const locationsReadOne = (req, res) => {
     res.status(200).json(location);
   });
 };
+
 const locationsUpdateOne = (req, res) => {
   if (!req.params.locationid) {
-    return res
-      .status(404)
-      .json({ message: "Not found, locationid is required." });
+    return res.status(404).json({
+      message: "Not found, locationid is required"
+    });
   }
-
-  Loc.findbyId(req.params.locationid)
+  Loc.findById(req.params.locationid)
     .select("-reviews -rating")
     .exec((err, location) => {
       if (!location) {
-        return res.json(404).status({ message: "locationid not found" });
+        return res.status(404).json({
+          message: "locationid not found"
+        });
       } else if (err) {
         return res.status(400).json(err);
       }
       location.name = req.body.name;
       location.address = req.body.address;
       location.facilities = req.body.facilities.split(",");
-      location.coords = {
-        type: "Point",
-        coordinates: [parseFloat(req.body.lng), parseFloat(req.body.lat)]
-      };
+      location.coords = [parseFloat(req.body.lng), parseFloat(req.body.lat)];
       location.openingTimes = [
         {
           days: req.body.days1,
@@ -135,11 +134,10 @@ const locationsUpdateOne = (req, res) => {
         }
       });
     });
-
-  res.status(200).json({ status: "success" });
 };
+
 const locationsDeleteOne = (req, res) => {
-  const { locationid } = req.params;
+  const locationid = req.params.locationid;
   if (locationid) {
     Loc.findByIdAndRemove(locationid).exec((err, location) => {
       if (err) {
