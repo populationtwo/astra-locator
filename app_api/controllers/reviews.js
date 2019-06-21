@@ -94,6 +94,7 @@ const reviewsReadOne = (req, res) => {
       }
     });
 };
+
 const reviewsUpdateOne = (req, res) => {
   if (!req.params.locationid || !req.params.reviewid) {
     return res.status(404).json({
@@ -104,9 +105,11 @@ const reviewsUpdateOne = (req, res) => {
     .select("reviews")
     .exec((err, location) => {
       if (!location) {
-        return res.status(404).json({ message: "Location not found" });
+        return res.status(404).json({
+          message: "Location not found"
+        });
       } else if (err) {
-        return res.status(404).json(err);
+        return res.status(400).json(err);
       }
       if (location.reviews && location.reviews.length > 0) {
         const thisReview = location.reviews.id(req.params.reviewid);
@@ -128,18 +131,52 @@ const reviewsUpdateOne = (req, res) => {
           });
         }
       } else {
-        res.status(404).json({ message: "No review to update" });
+        res.status(404).json({
+          message: "No review to update"
+        });
       }
     });
-
-  res.status(200).json({ status: "success" });
 };
+
 const reviewsDeleteOne = (req, res) => {
+  const { locationid, reviewid } = req.params;
+  if (!locationid || !reviewid) {
+    return res
+      .status(404)
+      .json({
+        message: "Not found, locationid and reviewid are both required"
+      });
+  }
 
+  Loc.findById(locationid)
+    .select("reviews")
+    .exec((err, location) => {
+      if (!location) {
+        return res.status(404).json({ message: "Location not found" });
+      } else if (err) {
+        return res.status(400).json(err);
+      }
 
-
-  res.status(200).json({ status: "success" });
+      if (location.reviews && location.reviews.length > 0) {
+        if (!location.reviews.id(reviewid)) {
+          return res.status(404).json({ message: "Review not found" });
+        } else {
+          location.reviews.id(reviewid).remove();
+          location.save(err => {
+            if (err) {
+              return res.status(404).json(err);
+            } else {
+              updateAverageRating(location._id);
+              res.status(204).json(null);
+            }
+          });
+        }
+      } else {
+        res.status(404).json({ message: "No Review to delete" });
+      }
+    });
 };
+
 
 module.exports = {
   reviewsCreate,

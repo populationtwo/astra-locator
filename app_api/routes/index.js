@@ -8,6 +8,7 @@ router
   .route("/locations")
   .get(ctrlLocations.locationsListByDistance)
   .post(ctrlLocations.locationsCreate);
+
 router
   .route("/locations/:locationid")
   .get(ctrlLocations.locationsReadOne)
@@ -16,6 +17,7 @@ router
 
 // reviews
 router.route("/locations/:locationid/reviews").post(ctrlReviews.reviewsCreate);
+
 router
   .route("/locations/:locationid/reviews/:reviewid")
   .get(ctrlReviews.reviewsReadOne)
