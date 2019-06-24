@@ -18,7 +18,8 @@
     "mongoose": "^5.6.0",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
-    "redline": "^1.0.1"
+    "redline": "^1.0.1",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "prettier": "1.18.2"
