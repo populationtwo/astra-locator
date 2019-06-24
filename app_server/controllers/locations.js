@@ -22,6 +22,15 @@ const formatDistance = distance => {
 };
 
 const renderHomepage = (req, res, responseBody) => {
+  let message = null;
+  if (!(responseBody instanceof Array)) {
+    message = 'API lookup error';
+    responseBody = [];
+  } else {
+    if (!responseBody.length) {
+      message = 'No places found nearby';
+    }
+  }
   res.render("locations-list", {
     title: "Locator - find a place to work with wifi",
     pageHeader: {
@@ -30,7 +39,8 @@ const renderHomepage = (req, res, responseBody) => {
     },
     sidebar:
       "Looking for wifi and a seat? Locator helps you find places to work when out and about. Perhaps with coffee, cake or a pint? Let Locator help you find the place you're looking for.",
-    locations: responseBody
+    locations: responseBody,
+    message
     // locations: [
     //   {
     //     name: "Starcups",
@@ -70,7 +80,7 @@ const homeList = (req, res) => {
       maxDistance: 20
     }
   };
-  request(requestOptions, (err, {statusCode}, body) => {
+  request(requestOptions, (err, { statusCode }, body) => {
     let data = [];
     if (statusCode === 200 && body.length) {
       data = body.map(item => {

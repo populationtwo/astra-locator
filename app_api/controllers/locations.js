@@ -16,7 +16,7 @@ const locationsListByDistance = async (req, res) => {
     maxDistance: 20000,
     limit: 10
   };
-  if (!lng || !lat) {
+  if ((!lng && lng !== 0) || (!lat && lat !== 0)) {
     return res.statu(404).json({
       message: "lng and lat query parameters are required"
     });
