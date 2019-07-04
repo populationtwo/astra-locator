@@ -21,6 +21,23 @@ const formatDistance = distance => {
   }
 };
 
+const showError = (req, res, status) => {
+  let title = "";
+  let content = "";
+  if (status === 404) {
+    title = "404, page not found";
+    content = "Oh dear. Looks like you can't find this page. Sorry.";
+  } else {
+    title = `${status}, something's gone wrong`;
+    content = "Something, somewhere, has gone just a little bit wrong.";
+  }
+  res.status(status);
+  res.render("generic-text", {
+    title,
+    content
+  });
+};
+
 const renderHomepage = (req, res, responseBody) => {
   let message = null;
   if (!(responseBody instanceof Array)) {
@@ -117,13 +134,24 @@ const locationInfo = (req, res) => {
     method: "GET",
     json: {}
   };
-  request(requestOptions, (err, response, body) => {
+  request(requestOptions, (err, { statusCode }, body) => {
     const data = body;
-    data.coords = {
-      lng: body.coords[0],
-      lat: body.coords[1]
-    };
-    renderDetailPage(req, res, data);
+    if (statusCode === 200) {
+      data.coords = {
+        lng: body.coords[0],
+        lat: body.coords[1]
+      };
+      renderDetailPage(req, res, data);
+    } else {
+      showError(req, res, statusCode);
+    }
+  });
+};
+
+const renderReviewForm = (req, res) => {
+  res.render("location-review-form", {
+    title: "Review Starcups on Locator",
+    pageHeader: { title: "Review StarCups" }
   });
 };
 
@@ -135,8 +163,13 @@ const addReview = (req, res) => {
   });
 };
 
+const doAddReview = (req,res) =>{
+  renderReviewForm(req,res);
+};
+
 module.exports = {
-	homeList,
-	locationInfo,
-	addReview
+  homeList,
+  locationInfo,
+  addReview,
+  doAddReview
 };
