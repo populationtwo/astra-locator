@@ -112,55 +112,66 @@ const homeList = (req, res) => {
 
 /* GET 'Location info' page */
 const renderDetailPage = (req, res, location) => {
-  res.render("location-info", {
-    title: location.name,
-    pageHeader: {
-      title: location.name
-    },
-    sidebar: {
-      context:
-        "is on Loc8r because it has accessible wifi and space to sit down with your laptop and get some work done.",
-      callToAction:
-        "If you've been and you like it - or if you don't - please leave a review to help other people just like you."
-    },
-    location
-  });
+  res.render('location-info',
+      {
+        title: location.name,
+        pageHeader: {
+          title: location.name,
+        },
+        sidebar: {
+          context: 'is on Loc8r because it has accessible wifi and space to sit down with your laptop and get some work done.',
+          callToAction: 'If you\'ve been and you like it - or if you don\'t - please leave a review to help other people just like you.'
+        },
+        location
+      }
+  );
 };
 
-const locationInfo = (req, res) => {
+const getLocationInfo = (req, res, callback) => {
   const path = `/api/locations/${req.params.locationid}`;
   const requestOptions = {
     url: `${apiOptions.server}${path}`,
-    method: "GET",
+    method: 'GET',
     json: {}
   };
-  request(requestOptions, (err, { statusCode }, body) => {
-    const data = body;
-    if (statusCode === 200) {
-      data.coords = {
-        lng: body.coords[0],
-        lat: body.coords[1]
-      };
-      renderDetailPage(req, res, data);
-    } else {
-      showError(req, res, statusCode);
-    }
-  });
+  request(
+      requestOptions,
+      (err, {statusCode}, body) => {
+        const data = body;
+        if (statusCode === 200) {
+          data.coords = {
+            lng: body.coords[0],
+            lat: body.coords[1]
+          }
+          callback(req, res, data);
+        } else {
+          showError(req, res, statusCode);
+        }
+      }
+  );
 };
 
-const renderReviewForm = (req, res) => {
-  res.render("location-review-form", {
-    title: "Review Starcups on Locator",
-    pageHeader: { title: "Review StarCups" }
-  });
+const locationInfo = (req, res) => {
+  getLocationInfo(req, res,
+      (req, res, responseData) => renderDetailPage(req, res, responseData)
+  );
+};
+
+const renderReviewForm = (req, res, {name}) => {
+  res.render('location-review-form',
+      {
+        title: `Review ${name} on Loc8r` ,
+        pageHeader: { title: `Review ${name}` },
+        error: req.query.err
+      }
+  );
 };
 
 /* GET 'Add review' page */
 const addReview = (req, res) => {
-  res.render("location-review-form", {
-    title: "Review Starcups on Locator",
-    pageHeader: { title: "Review Starcups" }
-  });
+  getLocationInfo(req, res,
+      (req, res, responseData) => renderReviewForm(req, res, responseData)
+  );
 };
 
 const doAddReview = (req,res) =>{
