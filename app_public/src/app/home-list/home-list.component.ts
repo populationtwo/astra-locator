@@ -26,7 +26,9 @@ export class HomeListComponent implements OnInit {
 
   private getLocations(position: any): void {
     this.message = "Searching for nearby places";
-    this.locatorDataService.getLocations().then(foundLocations => {
+    const lat: number = position.coords.latitude;
+    const lng: number = position.coords.longitude;
+    this.locatorDataService.getLocations(lat,lng).then(foundLocations => {
       this.message = foundLocations.length > 0 ? "" : "No locations found";
       this.locations = foundLocations;
     });
@@ -42,9 +44,9 @@ export class HomeListComponent implements OnInit {
   private getPosition(): void{
     this.message = 'Getting your location...';
     this.geolocationService.getPosition(
-        this.getLocations,
-        this.showError,
-        this.noGeo
+        this.getLocations.bind(this),
+        this.showError.bind(this),
+        this.noGeo.bind(this)
     )
   }
 
