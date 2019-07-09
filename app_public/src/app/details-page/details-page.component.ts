@@ -15,6 +15,8 @@ export class DetailsPageComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
+  newLocation: Location;
+
   ngOnInit() {
     this.route.paramMap
       .pipe(
@@ -24,6 +26,7 @@ export class DetailsPageComponent implements OnInit {
         })
       )
       .subscribe((newLocation: Location) => {
+        this.newLocation = newLocation;
         this.pageContent.header.title = newLocation.name;
         this.pageContent.sidebar = `${
           newLocation.name
