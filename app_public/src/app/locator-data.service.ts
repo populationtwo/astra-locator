@@ -32,10 +32,13 @@ export class LocatorDataService {
       .catch(this.handleError);
   }
 
-  public addReviewByLocationId(locationId: string): Promise<any> {
+  public addReviewByLocationId(
+    locationId: string,
+    formData: any
+  ): Promise<any> {
     const url: string = `${this.apiBaseUrl}/locations/${locationId}/reviews`;
     return this.http
-      .get(url)
+      .post(url, formData)
       .toPromise()
       .then(response => response as any)
       .catch(this.handleError);
