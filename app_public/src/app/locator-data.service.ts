@@ -26,10 +26,19 @@ export class LocatorDataService {
   public getLocationById(locationId: string): Promise<Location> {
     const url: string = `${this.apiBaseUrl}/locations/${locationId}`;
     return this.http
-        .get(url)
-        .toPromise()
-        .then(response => response as Location)
-        .catch(this.handleError);
+      .get(url)
+      .toPromise()
+      .then(response => response as Location)
+      .catch(this.handleError);
+  }
+
+  public addReviewByLocationId(locationId: string): Promise<any> {
+    const url: string = `${this.apiBaseUrl}/locations/${locationId}/reviews`;
+    return this.http
+      .get(url)
+      .toPromise()
+      .then(response => response as any)
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
