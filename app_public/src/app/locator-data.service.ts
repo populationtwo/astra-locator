@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Location, Review } from "./location";
+import { environment } from "../environments/environment";
 
 @Injectable({
   providedIn: "root"
@@ -8,7 +9,7 @@ import { Location, Review } from "./location";
 export class LocatorDataService {
   constructor(private http: HttpClient) {}
 
-  private apiBaseUrl = "http://localhost:3000/api";
+  private apiBaseUrl = environment.apiBaseUrl;
 
   public getLocations(lat: number, lng: number): Promise<Location[]> {
     const maxDistance: number = 20;

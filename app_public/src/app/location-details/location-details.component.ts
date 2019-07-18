@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { LocatorDataService } from "../locator-data.service";
-import { Location } from "../location";
+import { Review, Location } from "../location";
 
 @Component({
   selector: "app-location-details",
