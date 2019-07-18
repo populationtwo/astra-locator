@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const host = process.env.DB_HOST || "127.0.0.1";
-const dbURL = `mongodb://${host}/locator`;
-// const dbURL = 'mongodb://heroku_lw:heroku_lw103@ds339177.mlab.com:39177/heroku_lw20k9b7';
+// const dbURL = `mongodb://${host}/locator`;
+const dbURL = 'mongodb://heroku_lw:heroku_lw103@ds339177.mlab.com:39177/heroku_lw20k9b7';
 const readLine = require("readline");
 
 const connect = () => {
