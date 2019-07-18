@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { LocatorDataService } from "../locator-data.service";
-import { Location } from "../home-list/home-list.component";
+import { Location } from "../location";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap } from "rxjs/operators";
 

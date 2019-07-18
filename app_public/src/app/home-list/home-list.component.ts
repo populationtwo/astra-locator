@@ -1,16 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { LocatorDataService } from "../locator-data.service";
 import { GeolocationService } from "../geolocation.service";
-
-export class Location {
-  _id: string;
-  name: string;
-  distance: number;
-  address: string;
-  rating: number;
-  facilities: string[];
-  reviews: any[];
-}
+import { Location } from "../location";
 
 @Component({
   selector: "app-home-list",
@@ -29,7 +20,7 @@ export class HomeListComponent implements OnInit {
     this.message = "Searching for nearby places";
     const lat: number = position.coords.latitude;
     const lng: number = position.coords.longitude;
-    this.locatorDataService.getLocations(lat,lng).then(foundLocations => {
+    this.locatorDataService.getLocations(lat, lng).then(foundLocations => {
       this.message = foundLocations.length > 0 ? "" : "No locations found";
       this.locations = foundLocations;
     });
@@ -42,13 +33,13 @@ export class HomeListComponent implements OnInit {
     this.message = "Geolocation not supported by this browser.";
   }
 
-  private getPosition(): void{
-    this.message = 'Getting your location...';
+  private getPosition(): void {
+    this.message = "Getting your location...";
     this.geolocationService.getPosition(
-        this.getLocations.bind(this),
-        this.showError.bind(this),
-        this.noGeo.bind(this)
-    )
+      this.getLocations.bind(this),
+      this.showError.bind(this),
+      this.noGeo.bind(this)
+    );
   }
 
   ngOnInit() {

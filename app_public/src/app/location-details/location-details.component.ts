@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Location } from "../home-list/home-list.component";
 import { LocatorDataService } from "../locator-data.service";
+import { Location } from "../location";
 
 @Component({
   selector: "app-location-details",
@@ -15,7 +15,7 @@ export class LocationDetailsComponent implements OnInit {
   public formVisible: boolean = false;
   public googleAPIKey: string = "AIzaSyD936k9N-wBb16mUfR7Mhy_C0cWzSbUx3w";
 
-  public newReview = {
+  public newReview: Review = {
     author: "",
     rating: 5,
     reviewText: ""
@@ -34,11 +34,11 @@ export class LocationDetailsComponent implements OnInit {
       return false;
     }
   }
-  private resetAndHideReviewForm():void{
+  private resetAndHideReviewForm(): void {
     this.formVisible = false;
-    this.newReview.author = '';
+    this.newReview.author = "";
     this.newReview.rating = 5;
-    this.newReview.reviewText = '';
+    this.newReview.reviewText = "";
   }
   public onReviewSubmit(): void {
     this.formError = "";
@@ -46,7 +46,7 @@ export class LocationDetailsComponent implements OnInit {
       console.log(this.newReview);
       this.locatorDataService
         .addReviewByLocationId(this.location._id, this.newReview)
-        .then(review => {
+        .then((review: Review) => {
           console.log("Review saved", review);
           let reviews = this.location.reviews.slice(0);
           reviews.unshift(review);
