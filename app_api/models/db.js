@@ -60,4 +60,5 @@ process.on("SIGTERM", () => {
 
 connect();
 
-require('./locations');
+require("./locations");
+require("./users");
