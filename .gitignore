@@ -62,3 +62,6 @@ typings/
 
 # PhpStorm
 .idea/
+
+# Environment variables
+.env
