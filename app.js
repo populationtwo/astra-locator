@@ -39,6 +39,12 @@ app.get(/(\/about)|(\/location\/[a-z0-9]{24})/, function(req, res) {
   res.sendFile(path.join(__dirname, "app_public", "build", "index.html"));
 });
 
+app.use((err, req, res, next) => {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).json({ message: err.name + ": " + err.message });
+  }
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
