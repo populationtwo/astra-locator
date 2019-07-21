@@ -2,7 +2,7 @@ import { Inject, Injectable } from "@angular/core";
 import { BROWSER_STORAGE } from "./storage";
 import { LocatorDataService } from "./locator-data.service";
 import { User } from "./user";
-import {AuthResponse} from "./authresponse";
+import { AuthResponse } from "./authresponse";
 
 @Injectable({
   providedIn: "root"
@@ -43,6 +43,14 @@ export class AuthenticationService {
       return payload.exp > Date.now() / 1000;
     } else {
       return false;
+    }
+  }
+
+  public getCurrentUser(): User {
+    if (this.isLoggedIn()) {
+      const token: string = this.getToken();
+      const { email, name } = JSON.parse(atob(token.split(".")[1]));
+      return { email, name } as User;
     }
   }
 }

@@ -4,6 +4,7 @@ import { HomepageComponent } from "../homepage/homepage.component";
 import { AboutComponent } from "../about/about.component";
 import { DetailsPageComponent } from "../details-page/details-page.component";
 import { Routes, RouterModule } from "@angular/router";
+import { RegisterComponent } from "../register/register.component";
 
 const routes: Routes = [
   { path: "", component: HomepageComponent },
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: "location/:locationId",
     component: DetailsPageComponent
+  },
+  {
+    path: "register",
+    component: RegisterComponent
   }
 ];
 
