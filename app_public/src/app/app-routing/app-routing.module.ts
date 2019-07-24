@@ -5,6 +5,7 @@ import { AboutComponent } from "../about/about.component";
 import { DetailsPageComponent } from "../details-page/details-page.component";
 import { Routes, RouterModule } from "@angular/router";
 import { RegisterComponent } from "../register/register.component";
+import {LoginComponent} from "../login/login.component";
 
 const routes: Routes = [
   { path: "", component: HomepageComponent },
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: "register",
     component: RegisterComponent
+  },
+  {
+    path: "login",
+    component: LoginComponent
   }
 ];
 

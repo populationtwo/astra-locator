@@ -16,6 +16,7 @@ import { MostRecentFirstPipe } from "./most-recent-first.pipe";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { RegisterComponent } from './register/register.component';
     LocationDetailsComponent,
     DetailsPageComponent,
     MostRecentFirstPipe,
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
