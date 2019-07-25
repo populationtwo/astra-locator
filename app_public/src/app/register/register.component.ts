@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthenticationService } from "../authentication.service";
+import { HistoryService } from "../history.service";
 
 @Component({
   selector: "app-register",
@@ -8,6 +9,12 @@ import { AuthenticationService } from "../authentication.service";
   styleUrls: ["./register.component.css"]
 })
 export class RegisterComponent implements OnInit {
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private historyService: HistoryService
+  ) {}
+
   public formError: string = "";
 
   public credentials = {
@@ -36,10 +43,9 @@ export class RegisterComponent implements OnInit {
   private doRegister(): void {
     this.authenticationService
       .register(this.credentials)
-      .then(() => this.router.navigateByUrl("/"))
+      .then(() => this.router.navigateByUrl(this.historyService.getLastNonLoginUrl()))
       .catch(message => (this.formError = message));
   }
-  constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
   ngOnInit() {}
 }
