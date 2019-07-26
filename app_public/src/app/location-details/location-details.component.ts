@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { LocatorDataService } from "../locator-data.service";
 import { Review, Location } from "../location";
+import { AuthenticationService } from "../authentication.service";
 
 @Component({
   selector: "app-location-details",
@@ -10,7 +11,7 @@ import { Review, Location } from "../location";
 export class LocationDetailsComponent implements OnInit {
   @Input() location: Location;
 
-  constructor(private locatorDataService: LocatorDataService) {}
+  constructor(private locatorDataService: LocatorDataService, private authenticationService: AuthenticationService) {}
 
   public formVisible: boolean = false;
   public googleAPIKey: string = "AIzaSyD936k9N-wBb16mUfR7Mhy_C0cWzSbUx3w";
@@ -24,11 +25,7 @@ export class LocationDetailsComponent implements OnInit {
   public formError: string;
 
   private formIsValid(): boolean {
-    if (
-      this.newReview.author &&
-      this.newReview.rating &&
-      this.newReview.reviewText
-    ) {
+    if (this.newReview.author && this.newReview.rating && this.newReview.reviewText) {
       return true;
     } else {
       return false;
@@ -42,20 +39,28 @@ export class LocationDetailsComponent implements OnInit {
   }
   public onReviewSubmit(): void {
     this.formError = "";
+    this.newReview.author = this.getUsername();
     if (this.formIsValid()) {
       console.log(this.newReview);
-      this.locatorDataService
-        .addReviewByLocationId(this.location._id, this.newReview)
-        .then((review: Review) => {
-          console.log("Review saved", review);
-          let reviews = this.location.reviews.slice(0);
-          reviews.unshift(review);
-          this.location.reviews = reviews;
-          this.resetAndHideReviewForm();
-        });
+      this.locatorDataService.addReviewByLocationId(this.location._id, this.newReview).then((review: Review) => {
+        console.log("Review saved", review);
+        let reviews = this.location.reviews.slice(0);
+        reviews.unshift(review);
+        this.location.reviews = reviews;
+        this.resetAndHideReviewForm();
+      });
     } else {
       this.formError = "All fields required, please try again";
     }
+  }
+
+  public isLoggedIn(): boolean {
+    return this.authenticationService.isLoggedIn();
+  }
+
+  public getUsername(): string {
+    const { name } = this.authenticationService.getCurrentUser();
+    return name ? name : "Guest";
   }
 
   ngOnInit() {}
